@@ -47,8 +47,6 @@
 	<script>
 
 Pi.init({ version: "2.0", sandbox: true });
-  window.isAuthenticated = false;
-
   Pi.authenticate(['username', 'payments'], function (payment) {
     console.log("Incomplete payment found:", payment);
   }).then(function(auth) {
@@ -108,14 +106,6 @@ Pi.init({ version: "2.0", sandbox: true });
       });
     }
 
-    // Automatically check for authentication on page load
-    window.onload = function() {
-      // Check if user is authenticated
-      if (!window.isAuthenticated) {
-        alert("Please log in via Pi Browser first.");
-        window.location.href = "/"; // Redirect to login page if not authenticated
-      }
-    };
 
 	</script>
 
