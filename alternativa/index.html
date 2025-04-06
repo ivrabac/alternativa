@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="author" content="Ivan Vrabac">
+	<meta name="language" content="hr">
+	<meta name="title" content="Alternativa za Hrvatsku (AzH) – Suverena i Pravedna Hrvatska">
+	<meta name="description" content="Službena stranica stranke Alternativa za Hrvatsku (AzH). Borimo se za suverenu, pravednu i slobodnu Hrvatsku – bez korupcije i nepravde. Pridružite nam se!">
+	<meta name="keywords" content="Alternativa za Hrvatsku, AzH, politika, Hrvatska, suverenitet, politička stranka">
+	<meta name="robots" content="index, follow">
+    <title>Alternativa za Hrvatsku – Suverena i Pravedna Hrvatska</title>
+    <link rel="stylesheet" href="css/style.css">
+	
+	<meta property="og:title" content="Alternativa za Hrvatsku (AzH) – Politička stranka u Hrvatskoj">
+	<meta property="og:description" content="Zalažemo se za suverenu, pravednu i slobodnu Hrvatsku. Pridružite nam se!">
+	<meta property="og:image" content="https://alternativazahrvatsku.eu/pictures/logo.webp">
+	<meta property="og:url" content="https://alternativazahrvatsku.eu/">
+
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:title" content="Alternativa za Hrvatsku (AzH) – Politička stranka u Hrvatskoj">
+	<meta name="twitter:description" content="Zalažemo se za suverenu, pravednu i slobodnu Hrvatsku. Pridružite nam se!">
+	<meta name="twitter:image" content="https://alternativazahrvatsku.eu/pictures/logo.webp">
+
+	<link rel="canonical" href="https://alternativazahrvatsku.eu">
+	
+	<!-- Standard Favicon -->
+	<link rel="icon" type="image/png" sizes="32x32" href="pictures/favicon/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="pictures/favicon/favicon-16x16.png">
+
+	<!-- Apple Touch Icon (For iPhones, iPads) -->
+	<link rel="apple-touch-icon" sizes="180x180" href="pictures/favicon/apple-touch-icon.png">
+
+	<!-- Android & Chrome Icons -->
+	<link rel="icon" type="image/png" sizes="192x192" href="pictures/favicon/android-chrome-192x192.png">
+	<link rel="icon" type="image/png" sizes="512x512" href="pictures/favicon/android-chrome-512x512.png">
+
+	<!-- Favicon for Older Browsers -->
+	<link rel="shortcut icon" href="pictures/favicon/favicon.ico">
+
+	<!-- Web App Manifest (For Progressive Web Apps - Optional) -->
+	<link rel="manifest" href="pictures/favicon/site.webmanifest">
+	
+	<script src="https://sdk.minepi.com/pi-sdk.js"></script>
+<script>
+  Pi.init({ version: "2.0", sandbox: true });
+
+  window.isAuthenticated = false;
+
+  Pi.authenticate(['username', 'payments'], function (payment) {
+    console.log("Incomplete payment found:", payment);
+  }).then(function(auth) {
+    console.log("Authenticated:", auth.user);
+    window.isAuthenticated = true;
+  }).catch(err => {
+    console.error("Auth error:", err);
+  });
+</script>
+
+
+</head>
+<body>
+<header>
+	<div class="logo">
+            <a href="/"><img src="pictures/logo.webp" alt="Alternativa za Hrvatsku - Logo"></a>
+    </div>
+    <nav>
+        <ul class="program">
+            <li><a href="/program.html">Program</a></li>
+        </ul>
+		<ul class="statut">
+            <li><a href="/statut.html">Statut</a></li>
+        </ul>
+		<ul class="onama">
+            <li><a href="/onama.html" onclick="login()">O nama</a></li>
+        </ul>
+		<ul class="uclanise">
+            <li><a href="/uclanise.html">Članstvo</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+        <h1>Alternativa za Hrvatsku</h1>
+        <p>Mi smo ljudi koji će svoje živote posvetiti borbi za pravednije društvo i javni interes – za bolje obrazovanje, zdravstvo, pravosuđe, kulturu, radnička i ljudska prava.</p>
+		<p>Osim navedenih ciljeva, smatramo da određene struke trebaju ostati neovisne o politici te želimo potaknuti promjene u tom smjeru. Predani smo ostvarivanju tog cilja.</p>
+		<p>Primjeri takvih struka uključuju obrazovanje, gdje bi stručnost i kvalitetan rad trebali biti ispred političkih utjecaja; zdravstvo, gdje bi odluke trebale biti vođene isključivo dobrobiti pacijenata; pravosuđe, koje mora ostati nepristrano i neovisno; te znanost, koja treba biti utemeljena na činjenicama i istraživanjima, a ne političkim interesima.</p>
+		<h2>STRANICA U IZRADI</h2>      
+</main>
+
+<footer>
+    <p>&copy; 2025 AzH</p>
+</footer>
+
+
+</body>
+</html>
