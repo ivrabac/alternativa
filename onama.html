@@ -45,37 +45,19 @@
 	<script src="https://sdk.minepi.com/pi-sdk.js"></script>
 
 <script>
-
-  Pi.init({ version: "2.0", sandbox: true });
-	window.isAuthenticated = false;
-
-  Pi.authenticate(['username', 'payments'], function (payment) {
-    console.log("Incomplete payment found:", payment);
-  }).then(function(auth) {
-    console.log("Authenticated:", auth.user);
-    window.isAuthenticated = true;
-  }).catch(err => {
-    console.error("Auth error:", err);
-  });
-		
-	function login() {
-    Pi.authenticate()
-        .then(result => {
-            if (result.success) {
-                const accessToken = result.accessToken; // Store the access token for later use
-                console.log('User logged in successfully, access token:', accessToken);
-                
-                // Optionally store the token somewhere (e.g., in localStorage or a global variable)
-                // localStorage.setItem('accessToken', accessToken);
-            } else {
-                console.error('Login failed:', result);
-                alert('Login failed. Please try again.');
-            }
-        })
-        .catch(error => {
-            console.error('Login error:', error);
-            alert('An error occurred. Please try again.');
-        });
+	Pi.init({ version: "2.0", sandbox: true });
+	
+	const Pi = window.Pi;
+	const scopes = ['username','payments'];
+	
+	function onIncompletePaymentFound(payment) {
+  console.log(payment);
+  };
+  function login() {
+  Pi.authenticate(scopes, onIncompletePaymentFound).then(function(auth){
+    console.log(auth)
+}).catch(function(error) {
+  console.error(error);
 }
 
   function startPayment() {
