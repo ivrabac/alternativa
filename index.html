@@ -6,20 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="author" content="Ivan Vrabac">
 	<meta name="language" content="hr">
-	<meta name="title" content="Alternativa za Hrvatsku (AzH) – Suverena i Pravedna Hrvatska">
+	<meta name="title" content="Alternativa za Hrvatsku (AzH) – O nama">
 	<meta name="description" content="Službena stranica stranke Alternativa za Hrvatsku (AzH). Borimo se za suverenu, pravednu i slobodnu Hrvatsku – bez korupcije i nepravde. Pridružite nam se!">
 	<meta name="keywords" content="Alternativa za Hrvatsku, AzH, politika, Hrvatska, suverenitet, politička stranka">
 	<meta name="robots" content="index, follow">
-    <title>Alternativa za Hrvatsku – Suverena i Pravedna Hrvatska</title>
+    <title>Alternativa za Hrvatsku – O nama</title>
     <link rel="stylesheet" href="css/style.css">
 	
-	<meta property="og:title" content="Alternativa za Hrvatsku (AzH) – Politička stranka u Hrvatskoj">
+	<meta property="og:title" content="Alternativa za Hrvatsku (AzH) – O nama">
 	<meta property="og:description" content="Zalažemo se za suverenu, pravednu i slobodnu Hrvatsku. Pridružite nam se!">
 	<meta property="og:image" content="https://alternativazahrvatsku.eu/pictures/logo.webp">
 	<meta property="og:url" content="https://alternativazahrvatsku.eu/">
 
 	<meta name="twitter:card" content="summary_large_image">
-	<meta name="twitter:title" content="Alternativa za Hrvatsku (AzH) – Politička stranka u Hrvatskoj">
+	<meta name="twitter:title" content="Alternativa za Hrvatsku (AzH) – O nama">
 	<meta name="twitter:description" content="Zalažemo se za suverenu, pravednu i slobodnu Hrvatsku. Pridružite nam se!">
 	<meta name="twitter:image" content="https://alternativazahrvatsku.eu/pictures/logo.webp">
 
@@ -41,12 +41,13 @@
 
 	<!-- Web App Manifest (For Progressive Web Apps - Optional) -->
 	<link rel="manifest" href="pictures/favicon/site.webmanifest">
-	
-	<script src="https://sdk.minepi.com/pi-sdk.js"></script>
-<script>
-  Pi.init({ version: "2.0", sandbox: true });
 
-  window.isAuthenticated = false;
+	<script src="https://sdk.minepi.com/pi-sdk.js"></script>
+
+<script>
+
+  Pi.init({ version: "2.0", sandbox: true });
+	window.isAuthenticated = false;
 
   Pi.authenticate(['username', 'payments'], function (payment) {
     console.log("Incomplete payment found:", payment);
@@ -56,43 +57,91 @@
   }).catch(err => {
     console.error("Auth error:", err);
   });
+		
+	function login() {
+    Pi.authenticate()
+        .then(result => {
+            if (result.success) {
+                const accessToken = result.accessToken; // Store the access token for later use
+                console.log('User logged in successfully, access token:', accessToken);
+                
+                // Optionally store the token somewhere (e.g., in localStorage or a global variable)
+                // localStorage.setItem('accessToken', accessToken);
+            } else {
+                console.error('Login failed:', result);
+                alert('Login failed. Please try again.');
+            }
+        })
+        .catch(error => {
+            console.error('Login error:', error);
+            alert('An error occurred. Please try again.');
+        });
+}
+
+  function startPayment() {
+    if (!window.isAuthenticated) {
+      alert("Still logging in… please try again shortly.");
+      return;
+    }
+
+    Pi.createPayment({
+      amount: 0.1,
+      memo: "Support donation 🙌",
+      metadata: { source: window.location.pathname }
+    }, {
+      onReadyForServerApproval: function(paymentId) {
+        fetch("/.netlify/functions/approve-payment", {  // Use this path if it's the correct Netlify path
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ paymentId })
+        }).then(response => response.json())
+          .then(data => console.log("Payment approved:", data))
+          .catch(error => console.error("Error during approval:", error));
+      },
+      onReadyForServerCompletion: function(paymentId, txid) {
+        fetch("/.netlify/functions/complete-payment", {  // Use this path if it's the correct Netlify path
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ paymentId, txid })
+        }).then(response => response.json())
+          .then(data => console.log("Payment completed:", data))
+          .catch(error => console.error("Error during completion:", error));
+      },
+      onCancel: function(paymentId) {
+        console.log("User canceled payment:", paymentId);
+      },
+      onError: function(error, payment) {
+        console.error("Payment error:", error, payment);
+      }
+    });
+  }
+
 </script>
 
 
 </head>
 <body>
+
 <header>
-	<div class="logo">
+    <div class="logo">
             <a href="/"><img src="pictures/logo.webp" alt="Alternativa za Hrvatsku - Logo"></a>
     </div>
-    <nav>
-        <ul class="program">
-            <li><a href="/program.html">Program</a></li>
+	<nav>
+	<ul class="povratak">
+            <li><a href="/">Povratak</a></li>
         </ul>
-		<ul class="statut">
-            <li><a href="/statut.html">Statut</a></li>
-        </ul>
-		<ul class="onama">
-            <li><a href="/onama.html">O nama</a></li>
-        </ul>
-		<ul class="uclanise">
-            <li><a href="/uclanise.html">Članstvo</a></li>
-        </ul>
-    </nav>
+	</nav>
 </header>
 
 <main>
-        <h1>Alternativa za Hrvatsku</h1>
-        <p>Mi smo ljudi koji će svoje živote posvetiti borbi za pravednije društvo i javni interes – za bolje obrazovanje, zdravstvo, pravosuđe, kulturu, radnička i ljudska prava.</p>
-		<p>Osim navedenih ciljeva, smatramo da određene struke trebaju ostati neovisne o politici te želimo potaknuti promjene u tom smjeru. Predani smo ostvarivanju tog cilja.</p>
-		<p>Primjeri takvih struka uključuju obrazovanje, gdje bi stručnost i kvalitetan rad trebali biti ispred političkih utjecaja; zdravstvo, gdje bi odluke trebale biti vođene isključivo dobrobiti pacijenata; pravosuđe, koje mora ostati nepristrano i neovisno; te znanost, koja treba biti utemeljena na činjenicama i istraživanjima, a ne političkim interesima.</p>
-		<h2>STRANICA U IZRADI</h2>      
+	<a href="#" onclick="login; startPayment()">TEST 0.1 PI</a>
+    <h2>Alternativa za Hrvatsku je tu da stvori pravi put prema pravednijem društvu i budućnosti.</h2>
+    <p>Mi smo.. obični i neobični građani koji se borimo za bolje društvo!</p>
+    <h2>STRANICA U IZRADI</h2>
+	<p>Unaprijed isprike za neočekivanu funkcionalnost stranice. Trenutno smo mali tim i mala stranka te jedna osoba radi na održavanju stranice. Kolačići na našoj stranici ne postoje jer nam je Vaša privatnost na prvom mjestu. Ne prodajemo vaše podatke kao ostale političke stranke već isključivo ovisimo o Vašim donacijama!</p>
 </main>
-
 <footer>
-    <p>&copy; 2025 AzH</p>
+<p>&copy; 2025 AzH</p>
 </footer>
-
-
 </body>
 </html>
