@@ -45,59 +45,87 @@
 	<script src="https://sdk.minepi.com/pi-sdk.js"></script>
 
 <script>
-	Pi.init({ version: "2.0", sandbox: true });
-	
-	const Pi = window.Pi;
-	const scopes = ['username','payments'];
-	
-	function onIncompletePaymentFound(payment) {
-  console.log(payment);
-  };
-  function login() {
-  Pi.authenticate(scopes, onIncompletePaymentFound).then(function(auth){
-    console.log(auth)
-}).catch(function(error) {
-  console.error(error);
-}}
+// Initialize Pi SDK with sandbox mode enabled
+  Pi.init({ version: "2.0", sandbox: true });
 
+  const Pi = window.Pi;
+  const scopes = ['username', 'payments'];
+
+  // Callback to handle incomplete payments
+  function onIncompletePaymentFound(payment) {
+    console.log("Incomplete payment found:", payment);
+  }
+
+  // Function to authenticate the user via Pi Browser
+  function login() {
+    Pi.authenticate(scopes, onIncompletePaymentFound)
+      .then(auth => {
+        console.log("User authenticated:", auth);
+        window.isAuthenticated = true; // Store authentication status
+      })
+      .catch(error => {
+        console.error("Authentication failed:", error);
+        alert("Please log in through the Pi Browser and authenticate your account. If you’ve already done so, kindly wait a moment and try again.");
+      });
+  }
+
+  // Function to start the payment process
   function startPayment() {
     if (!window.isAuthenticated) {
       alert("Please log in through the Pi Browser and authenticate your account. If you’ve already done so, kindly wait a moment and try again.");
       return;
     }
 
+    console.log("Starting payment process...");
     Pi.createPayment({
       amount: 0.1,
       memo: "Support donation 🙌",
       metadata: { source: window.location.pathname }
     }, {
+      // Callback for when payment is ready for server approval
       onReadyForServerApproval: function(paymentId) {
-        fetch("/.netlify/functions/approve-payment", {  // Use this path if it's the correct Netlify path
+        console.log("Payment ready for server approval:", paymentId);
+        fetch("/.netlify/functions/approve-payment", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ paymentId })
-        }).then(response => response.json())
-          .then(data => console.log("Payment approved:", data))
-          .catch(error => console.error("Error during approval:", error));
+        })
+        .then(response => response.json())
+        .then(data => console.log("Payment approved:", data))
+        .catch(error => console.error("Error during approval:", error));
       },
+
+      // Callback for when payment is ready for completion
       onReadyForServerCompletion: function(paymentId, txid) {
-        fetch("/.netlify/functions/complete-payment", {  // Use this path if it's the correct Netlify path
+        console.log("Payment ready for server completion:", paymentId, txid);
+        fetch("/.netlify/functions/complete-payment", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ paymentId, txid })
-        }).then(response => response.json())
-          .then(data => console.log("Payment completed:", data))
-          .catch(error => console.error("Error during completion:", error));
+        })
+        .then(response => response.json())
+        .then(data => console.log("Payment completed:", data))
+        .catch(error => console.error("Error during completion:", error));
       },
+
+      // Callback for when payment is canceled
       onCancel: function(paymentId) {
         console.log("User canceled payment:", paymentId);
       },
+
+      // Callback for handling any errors during the payment process
       onError: function(error, payment) {
         console.error("Payment error:", error, payment);
       }
     });
   }
 
+  // Automatically prompt login on page load if user is not authenticated
+  window.onload = function() {
+    if (!window.isAuthenticated) {
+      login(); // Trigger login process automatically on page load
+    }
+  };
 </script>
 
 
