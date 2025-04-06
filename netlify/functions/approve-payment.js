@@ -10,12 +10,20 @@ exports.handler = async (event, context) => {
     };
   }
 
-  const APIKEY = process.env.PAYMENT_API_KEY; // Store the API key securely in environment variables
+  // Access the PAYMENT_API_KEY from environment variables
+  const PAYMENT_API_KEY = process.env.PAYMENT_API_KEY;
+
+  if (!PAYMENT_API_KEY) {
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: 'PAYMENT_API_KEY is missing from environment variables' })
+    };
+  }
 
   try {
     const postingURL = `https://api.minepi.com/v2/payments/${paymentId}/approve`;
     const response = await axios.post(postingURL, null, {
-      headers: { Authorization: `key ${APIKEY}` }
+      headers: { Authorization: `key ${PAYMENT_API_KEY}` }
     });
 
     return {
@@ -23,7 +31,6 @@ exports.handler = async (event, context) => {
       body: JSON.stringify(response.data)
     };
   } catch (error) {
-    console.error('Error approving payment:', error); // Add logging for better error handling
     return {
       statusCode: 500,
       body: JSON.stringify({ error: error.message })
