@@ -44,6 +44,7 @@
 	
 	<script src="https://sdk.minepi.com/pi-sdk.js"></script>
 <script>
+	
   Pi.init({ version: "2.0", sandbox: true });
 
   window.isAuthenticated = false;
@@ -56,6 +57,7 @@
   }).catch(err => {
     console.error("Auth error:", err);
   });
+	
 </script>
 
 
@@ -73,7 +75,7 @@
             <li><a href="/statut.html">Statut</a></li>
         </ul>
 		<ul class="onama">
-            <li><a href="/onama.html" onclick="login()">O nama</a></li>
+            <li><a href="/onama.html">O nama</a></li>
         </ul>
 		<ul class="uclanise">
             <li><a href="/uclanise.html">Članstvo</a></li>
