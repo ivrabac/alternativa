@@ -43,7 +43,39 @@
 	<link rel="manifest" href="pictures/favicon/site.webmanifest">
 	
 	<script src="https://sdk.minepi.com/pi-sdk.js"></script>
+	
+	<script>
+	
+	Pi.init({ version: "2.0", sandbox: true });
 
+    const Pi = window.Pi;
+    const scopes = ['username', 'payments'];
+
+    // Callback to handle incomplete payments
+    function onIncompletePaymentFound(payment) {
+      console.log("Incomplete payment found:", payment);
+    }
+
+    // Function to authenticate the user via Pi Browser
+    function login() {
+      Pi.authenticate(scopes, onIncompletePaymentFound)
+        .then(auth => {
+          console.log("User authenticated:", auth);
+          window.isAuthenticated = true; // Store authentication status
+          // Redirect to onama.html after successful login
+          window.location.href = "onama.html";
+        })
+        .catch(error => {
+          console.error("Authentication failed:", error);
+          alert("Please log in through the Pi Browser and authenticate your account. If you’ve already done so, kindly wait a moment and try again.");
+        });
+    }
+	
+	window.onload = function() {
+      login();
+    };
+	
+	</script>
 
 </head>
 <body>
