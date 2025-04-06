@@ -44,89 +44,73 @@
 
 	<script src="https://sdk.minepi.com/pi-sdk.js"></script>
 
-<script>
-// Initialize Pi SDK with sandbox mode enabled
-  Pi.init({ version: "2.0", sandbox: true });
+	<script>
 
-  const Pi = window.Pi;
-  const scopes = ['username', 'payments'];
+Pi.init({ version: "2.0", sandbox: true });
 
-  // Callback to handle incomplete payments
-  function onIncompletePaymentFound(payment) {
-    console.log("Incomplete payment found:", payment);
-  }
+    const Pi = window.Pi;
 
-  // Function to authenticate the user via Pi Browser
-  function login() {
-    Pi.authenticate(scopes, onIncompletePaymentFound)
-      .then(auth => {
-        console.log("User authenticated:", auth);
-        window.isAuthenticated = true; // Store authentication status
-      })
-      .catch(error => {
-        console.error("Authentication failed:", error);
+    // Function to start the payment process
+    function startPayment() {
+      if (!window.isAuthenticated) {
         alert("Please log in through the Pi Browser and authenticate your account. If you’ve already done so, kindly wait a moment and try again.");
-      });
-  }
-
-  // Function to start the payment process
-  function startPayment() {
-    if (!window.isAuthenticated) {
-      alert("Please log in through the Pi Browser and authenticate your account. If you’ve already done so, kindly wait a moment and try again.");
-      return;
-    }
-
-    console.log("Starting payment process...");
-    Pi.createPayment({
-      amount: 0.1,
-      memo: "Support donation 🙌",
-      metadata: { source: window.location.pathname }
-    }, {
-      // Callback for when payment is ready for server approval
-      onReadyForServerApproval: function(paymentId) {
-        console.log("Payment ready for server approval:", paymentId);
-        fetch("/.netlify/functions/approve-payment", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ paymentId })
-        })
-        .then(response => response.json())
-        .then(data => console.log("Payment approved:", data))
-        .catch(error => console.error("Error during approval:", error));
-      },
-
-      // Callback for when payment is ready for completion
-      onReadyForServerCompletion: function(paymentId, txid) {
-        console.log("Payment ready for server completion:", paymentId, txid);
-        fetch("/.netlify/functions/complete-payment", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ paymentId, txid })
-        })
-        .then(response => response.json())
-        .then(data => console.log("Payment completed:", data))
-        .catch(error => console.error("Error during completion:", error));
-      },
-
-      // Callback for when payment is canceled
-      onCancel: function(paymentId) {
-        console.log("User canceled payment:", paymentId);
-      },
-
-      // Callback for handling any errors during the payment process
-      onError: function(error, payment) {
-        console.error("Payment error:", error, payment);
+        return;
       }
-    });
-  }
 
-  // Automatically prompt login on page load if user is not authenticated
-  window.onload = function() {
-    if (!window.isAuthenticated) {
-      login(); // Trigger login process automatically on page load
+      console.log("Starting payment process...");
+      Pi.createPayment({
+        amount: 0.1,
+        memo: "Support donation 🙌",
+        metadata: { source: window.location.pathname }
+      }, {
+        // Callback for when payment is ready for server approval
+        onReadyForServerApproval: function(paymentId) {
+          console.log("Payment ready for server approval:", paymentId);
+          fetch("/.netlify/functions/approve-payment", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ paymentId })
+          })
+          .then(response => response.json())
+          .then(data => console.log("Payment approved:", data))
+          .catch(error => console.error("Error during approval:", error));
+        },
+
+        // Callback for when payment is ready for completion
+        onReadyForServerCompletion: function(paymentId, txid) {
+          console.log("Payment ready for server completion:", paymentId, txid);
+          fetch("/.netlify/functions/complete-payment", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ paymentId, txid })
+          })
+          .then(response => response.json())
+          .then(data => console.log("Payment completed:", data))
+          .catch(error => console.error("Error during completion:", error));
+        },
+
+        // Callback for when payment is canceled
+        onCancel: function(paymentId) {
+          console.log("User canceled payment:", paymentId);
+        },
+
+        // Callback for handling any errors during the payment process
+        onError: function(error, payment) {
+          console.error("Payment error:", error, payment);
+        }
+      });
     }
-  };
-</script>
+
+    // Automatically check for authentication on page load
+    window.onload = function() {
+      // Check if user is authenticated
+      if (!window.isAuthenticated) {
+        alert("Please log in via Pi Browser first.");
+        window.location.href = "/"; // Redirect to login page if not authenticated
+      }
+    };
+
+	</script>
 
 
 </head>
@@ -144,7 +128,7 @@
 </header>
 
 <main>
-	<a href="#" onclick="login(); startPayment()">TEST 0.1 PI</a>
+	<a href="#" onclick="startPayment()">TEST 0.1 PI</a>
     <h2>Alternativa za Hrvatsku je tu da stvori pravi put prema pravednijem društvu i budućnosti.</h2>
     <p>Mi smo.. obični i neobični građani koji se borimo za bolje društvo!</p>
     <h2>STRANICA U IZRADI</h2>
