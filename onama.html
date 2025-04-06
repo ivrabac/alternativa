@@ -47,9 +47,16 @@
 	<script>
 
 Pi.init({ version: "2.0", sandbox: true });
+  window.isAuthenticated = false;
 
-    const Pi = window.Pi;
-
+  Pi.authenticate(['username', 'payments'], function (payment) {
+    console.log("Incomplete payment found:", payment);
+  }).then(function(auth) {
+    console.log("Authenticated:", auth.user);
+    window.isAuthenticated = true;
+  }).catch(err => {
+    console.error("Auth error:", err);
+  });
     // Function to start the payment process
     function startPayment() {
       if (!window.isAuthenticated) {
