@@ -49,9 +49,12 @@
 Pi.init({ version: "2.0", sandbox: true });
 
 window.isAuthenticated = false;
-const Pi = window.Pi;
+
 		
-  function login(){ Pi.authenticate(['username', 'payments'], function (payment) {
+  function login(){
+const Pi = window.Pi;
+	  
+Pi.authenticate(['username', 'payments'], function (payment) {
     console.log("Incomplete payment found:", payment);
   }).then(function(auth) {
     console.log("Authenticated:", auth.user);
