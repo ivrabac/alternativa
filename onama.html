@@ -47,7 +47,10 @@
 	<script>
 
 Pi.init({ version: "2.0", sandbox: true });
-  Pi.authenticate(['username', 'payments'], function (payment) {
+
+window.isAuthenticated = false;
+		
+  function login(){ Pi.authenticate(['username', 'payments'], function (payment) {
     console.log("Incomplete payment found:", payment);
   }).then(function(auth) {
     console.log("Authenticated:", auth.user);
@@ -55,6 +58,7 @@ Pi.init({ version: "2.0", sandbox: true });
   }).catch(err => {
     console.error("Auth error:", err);
   });
+		  }
     // Function to start the payment process
     function startPayment() {
       if (!window.isAuthenticated) {
@@ -125,6 +129,7 @@ Pi.init({ version: "2.0", sandbox: true });
 </header>
 
 <main>
+	<a href="#" onclick="login()">TEST LOGIN</a>
 	<a href="#" onclick="startPayment()">TEST 0.1 PI</a>
     <h2>Alternativa za Hrvatsku je tu da stvori pravi put prema pravednijem društvu i budućnosti.</h2>
     <p>Mi smo.. obični i neobični građani koji se borimo za bolje društvo!</p>
