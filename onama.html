@@ -47,17 +47,26 @@
 <script>
 
  Pi.init({ version: "2.0", sandbox: true });
-
-  window.isAuthenticated = false;
-
-  Pi.authenticate(['username', 'payments'], function (payment) {
-    console.log("Incomplete payment found:", payment);
-  }).then(function(auth) {
-    console.log("Authenticated:", auth.user);
-    window.isAuthenticated = true;
-  }).catch(err => {
-    console.error("Auth error:", err);
-  });
+		
+	function login() {
+    Pi.authenticate()
+        .then(result => {
+            if (result.success) {
+                const accessToken = result.accessToken; // Store the access token for later use
+                console.log('User logged in successfully, access token:', accessToken);
+                
+                // Optionally store the token somewhere (e.g., in localStorage or a global variable)
+                // localStorage.setItem('accessToken', accessToken);
+            } else {
+                console.error('Login failed:', result);
+                alert('Login failed. Please try again.');
+            }
+        })
+        .catch(error => {
+            console.error('Login error:', error);
+            alert('An error occurred. Please try again.');
+        });
+}
 
   function startPayment() {
     if (!window.isAuthenticated) {
@@ -115,7 +124,7 @@
 </header>
 
 <main>
-	<a href="#" onclick="startPayment()">Donate 0.1π Test</a>
+	<a href="#" onclick="login; startPayment()">Donate 0.1π Test</a>
     <h2>Alternativa za Hrvatsku je tu da stvori pravi put prema pravednijem društvu i budućnosti.</h2>
     <p>Mi smo.. obični i neobični građani koji se borimo za bolje društvo!</p>
     <h2>STRANICA U IZRADI</h2>
