@@ -1,0 +1,3 @@
+User-agent: *
+Disallow: /*.xml$
+Sitemap: https://alternativazahrvatsku.eu/sitemap.xml
