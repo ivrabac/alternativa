@@ -10,7 +10,7 @@ exports.handler = async (event, context) => {
     };
   }
 
-  const APIKEY = 'b252b09aac2d7144be1e446120d8d0235cba327063a183324a06b0f22a68fd3c08d50b2b2ac24baa6a083323156cd87463e52e1e19c75834d36adf2a7c579de2';
+  const APIKEY = process.env.PAYMENT_API_KEY; // Store the API key securely in environment variables
 
   try {
     const postingURL = `https://api.minepi.com/v2/payments/${paymentId}/approve`;
@@ -23,6 +23,7 @@ exports.handler = async (event, context) => {
       body: JSON.stringify(response.data)
     };
   } catch (error) {
+    console.error('Error approving payment:', error); // Add logging for better error handling
     return {
       statusCode: 500,
       body: JSON.stringify({ error: error.message })
