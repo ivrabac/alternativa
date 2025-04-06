@@ -43,39 +43,21 @@
 	<link rel="manifest" href="pictures/favicon/site.webmanifest">
 	
 	<script src="https://sdk.minepi.com/pi-sdk.js"></script>
-	
-	<script>
-	
-	Pi.init({ version: "2.0", sandbox: true });
+<script>
+  Pi.init({ version: "2.0", sandbox: true });
 
-    const Pi = window.Pi;
-    const scopes = ['username', 'payments'];
+  window.isAuthenticated = false;
 
-    // Callback to handle incomplete payments
-    function onIncompletePaymentFound(payment) {
-      console.log("Incomplete payment found:", payment);
-    }
+  Pi.authenticate(['username', 'payments'], function (payment) {
+    console.log("Incomplete payment found:", payment);
+  }).then(function(auth) {
+    console.log("Authenticated:", auth.user);
+    window.isAuthenticated = true;
+  }).catch(err => {
+    console.error("Auth error:", err);
+  });
+</script>
 
-    // Function to authenticate the user via Pi Browser
-    function login() {
-      Pi.authenticate(scopes, onIncompletePaymentFound)
-        .then(auth => {
-          console.log("User authenticated:", auth);
-          window.isAuthenticated = true; // Store authentication status
-          // Redirect to onama.html after successful login
-          window.location.href = "onama.html";
-        })
-        .catch(error => {
-          console.error("Authentication failed:", error);
-          alert("Please log in through the Pi Browser and authenticate your account. If you’ve already done so, kindly wait a moment and try again.");
-        });
-    }
-	
-	window.onload = function() {
-      login();
-    };
-	
-	</script>
 
 </head>
 <body>
@@ -91,7 +73,7 @@
             <li><a href="/statut.html">Statut</a></li>
         </ul>
 		<ul class="onama">
-            <li><a href="/onama.html">O nama</a></li>
+            <li><a href="/onama.html" onclick="login()">O nama</a></li>
         </ul>
 		<ul class="uclanise">
             <li><a href="/uclanise.html">Članstvo</a></li>
