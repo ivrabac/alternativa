@@ -47,7 +47,9 @@
 	<script>
 
 	Pi.init({ version: "2.0", sandbox: true });
-	  
+
+	window.isAuthenticated = false;
+		
 	Pi.authenticate(['username', 'payments'], function (payment) {
 	    console.log("Incomplete payment found:", payment);
 	  }).then(function(auth) {
