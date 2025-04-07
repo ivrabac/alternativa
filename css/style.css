@@ -1,3 +1,7 @@
+.pi-feature { /*Disables all Pi Network features unless logged in with the Pi Browser and authenticated: see pi-network.js*/
+    display: none;
+  }
+
 body {
     font-family: "Segoe UI", Arial, sans-serif;
     margin: 0;
