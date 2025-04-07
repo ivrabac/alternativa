@@ -66,6 +66,9 @@ window.isAuthenticated = false;
 Pi.authenticate(scopes, onIncompletePaymentFound).then(function(auth) {
   console.log("Authenticated:", auth.user);
   window.isAuthenticated = true;
+   document.querySelectorAll('.pi-feature').forEach(el => {
+      el.style.display = 'block';
+    });
 }).catch(function(error) {
   console.error("Authentication error:", error);
   alert("Please log in via the Pi Browser and authenticate yourself.");
@@ -134,6 +137,11 @@ function startPayment() {
 		
 	</script>
 
+<style>
+  .pi-feature {
+    display: none;
+  }
+</style>
 
 </head>
 <body>
@@ -143,10 +151,10 @@ function startPayment() {
             <a href="/"><img src="pictures/logo.webp" alt="Alternativa za Hrvatsku - Logo"></a>
     </div>
 	<nav>
-	<ul class="statut">
+	<ul class="statut pi-feature">
             <li><a onclick="Pi.Ads.showAd('rewarded')">Test: Reklama</a></li>
         </ul>
-	<ul class="program">
+	<ul class="program pi-feature">
             <li><a onclick="startPayment()">Test: 0.1 Pi</a></li>
         </ul>
 	<ul class="povratak">
