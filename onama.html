@@ -124,7 +124,7 @@ function startPayment() {
 
 
 
-      const result = await rewardUserForWatchingRewardedAd(adId);
+      const result = rewardUserForWatchingRewardedAd(adId);
       if (result.rewarded === true) {
 	showRewardedModal(result.reward);
         alert("Hvala na podršci! Vaš pregled reklame je uspješno prihvaćen.");
