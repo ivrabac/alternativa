@@ -124,11 +124,6 @@ function startPayment() {
 
 
   try {
-    const isAdReadyResponse = await Pi.Ads.isAdReady("rewarded");
-
-    if (isAdReadyResponse.ready === false) {
-      const requestAdResponse = await Pi.Ads.requestAd("rewarded");
-
       if (requestAdResponse.result === "ADS_NOT_SUPPORTED") {
         // display modal to update Pi Browser
         return showAdsNotSupportedModal();
