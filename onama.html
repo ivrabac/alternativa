@@ -123,12 +123,7 @@ function startPayment() {
 }
 
 
-  try {
-    const showAdResponse = await Pi.Ads.showAd("rewarded");
-    if (showAdResponse.result === "AD_REWARDED") {
-      // reward user logic:
-      // usually delegate rewarding user to your backend which would
-      // firstly verify `adId` against Pi Platform API, then decide whether to
+
       const result = await rewardUserForWatchingRewardedAd(adId);
       if (result.rewarded === true) {
 	showRewardedModal(result.reward);
@@ -137,13 +132,6 @@ function startPayment() {
 	showRewardFailModal(result.error);
         alert("Hvala na podršci, ali pregled reklame nije uspješno prihvaćen.");
       }
-    } else {
-      // fallback logic
-      showAdErrorModal();
-    }
-  } catch (err) {
-    alert("Hvala na podršci: ERROR! Obratite se administratoru.");
-  }
 
 		
 	</script>
