@@ -124,18 +124,7 @@ function startPayment() {
 
 
   try {
-      if (requestAdResponse.result === "ADS_NOT_SUPPORTED") {
-        // display modal to update Pi Browser
-        return showAdsNotSupportedModal();
-      }
-
-      if (requestAdResponse.result !== "AD_LOADED") {
-        // display modal ads are temporarily unavailable and user should try again later
-        return showAdUnavailableModal();
-      }
-
     const showAdResponse = await Pi.Ads.showAd("rewarded");
-
     if (showAdResponse.result === "AD_REWARDED") {
       // reward user logic:
       // usually delegate rewarding user to your backend which would
