@@ -1,5 +1,5 @@
 .pi-feature { /*Disables all Pi Network features unless logged in with the Pi Browser and authenticated: see pi-network.js*/
-    display: none;
+    display: none !important;
   }
 
 body {
