@@ -132,16 +132,14 @@ function startPayment() {
 })();
 
 	// PI NETWORK REWARDED ADS - Support Political Party without paying but just watching ads
-(async () => {
-	const showAdResponse = await Pi.Ads.showAd("rewarded");
+const showAdResponse = await Pi.Ads.showAd("rewarded");
 if (showAdResponse.result === "AD_REWARDED") {
   // delegate rewarding user to your backend
   // e.g.:
   const result = await rewardUserForWatchingRewardedAd(showAdResponse.adId);
   if (result.rewarded === true) {
     alert("Hvala na podršci! Vaš pregled reklame je bio uspješan.");
-  }
-	else{
+  }else {
 		alert("Hvala na pokušaju, ali pregled reklame je bio neuspješan.");
 	}
 }
@@ -157,7 +155,7 @@ if (showAdResponse.result === "AD_REWARDED") {
     </div>
 	<nav>
 	<ul class="statut">
-            <li><a onclick="Pi.Ads.showAd("rewarded")">Doniraj pregled reklame - test</a></li>
+            <li><a onclick="Pi.Ads.showAd('rewarded')">Doniraj pregled reklame - test</a></li>
         </ul>
 	<ul class="program">
             <li><a onclick="startPayment()">Doniraj 0.1 Pi - test</a></li>
