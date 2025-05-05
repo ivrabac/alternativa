@@ -2,9 +2,9 @@
   "name": "Alternativa za Hrvatsku",
   "short_name": "AzH",
   "start_url": "/",
-  "display": "standalone",
+  "display": "fullscreen",
   "background_color": "#000000",
-  "theme_color": "#000000",
+  "theme_color": "transparent",
   "icons": [
     {
       "src": "pictures/favicon/android-chrome-192x192.png",
