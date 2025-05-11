@@ -199,7 +199,3 @@ nav a {
     text-decoration: none;
     color: white;
 }
-
-.pi-feature { /*Disables all Pi Network features unless logged in with the Pi Browser and authenticated: see pi-network.js*/
-    display: none;
-  }
